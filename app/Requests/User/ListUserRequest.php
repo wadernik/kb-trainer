@@ -13,7 +13,7 @@ final class ListUserRequest implements ListUserRequestInterface
             'filter' => 'array|null',
             'sort' => 'array|null',
             'limit' => 'int|null',
-            'offset' => 'int|null'
+            'offset' => 'int|null',
         ])]
         private readonly array $requestParams
     )

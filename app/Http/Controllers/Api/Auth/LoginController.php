@@ -17,7 +17,7 @@ final class LoginController extends AbstractApiController
     {
         $request = new LoginUserRequest($form->validated());
 
-        if (!$token = $authManager->getToken($request->toArray())) {
+        if (!$token = $authManager->getToken($request)) {
             return $this->responseError(code: Response::HTTP_BAD_REQUEST);
         }
 

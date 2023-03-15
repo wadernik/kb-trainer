@@ -13,14 +13,15 @@ final class UserManager implements UserManagerInterface
 {
     public function create(CreateUserRequestInterface $request): Model
     {
-        return User::query()->create($request->toArray());
+        $attributes = $request->toArray();
+        $attributes['password'] = bcrypt($request->password());
+
+        return User::query()->create($attributes);
     }
 
     public function update(int $id, UpdateUserRequestInterface $request): ?Model
     {
-        $user = User::query()->find($id);
-
-        if (!$user) {
+        if (!$user = User::query()->find($id)) {
             return null;
         }
 
@@ -31,9 +32,7 @@ final class UserManager implements UserManagerInterface
 
     public function delete(int $id): ?Model
     {
-        $user = User::query()->find($id);
-
-        if (!$user) {
+        if (!$user = User::query()->find($id)) {
             return null;
         }
 

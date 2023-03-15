@@ -3,24 +3,18 @@
 namespace App\Managers\User;
 
 use App\Models\User;
+use App\Requests\User\LoginRequestInterface;
 use Illuminate\Support\Facades\Auth;
 
 class AuthUsersManager
 {
-    /**
-     * @param array $attributes
-     * @param string $deviceName
-     * @return string|null
-     */
-    public function getToken(array $attributes, string $deviceName = 'auth_token'): ?string
+    public function getToken(LoginRequestInterface $loginRequest, string $deviceName = 'auth_token'): ?string
     {
-        if (!Auth::attempt($attributes)) {
+        if (!Auth::attempt($loginRequest->toArray())) {
             return '';
         }
 
-        $user = User::query()->find($attributes['id']);
-
-        if (!$user) {
+        if (!$user = User::query()->where('username', $loginRequest->username())->first()) {
             return null;
         }
 

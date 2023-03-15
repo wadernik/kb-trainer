@@ -12,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 
 final class ListUserController extends AbstractApiController
 {
-    // TODO: do the serialization somewhere else
     public function list(ListUserRequestForm $form, UserRepositoryInterface $repository): JsonResponse
     {
         $request = new ListUserRequest($form->validated());
@@ -24,12 +23,6 @@ final class ListUserController extends AbstractApiController
             $request->offset()
         );
 
-        $usersSerialized = [];
-
-        foreach ($users as $user) {
-            $usersSerialized[] = $user->toArray();
-        }
-
-        return $this->responseSuccess($usersSerialized);
+        return $this->responseSuccess($users);
     }
 }

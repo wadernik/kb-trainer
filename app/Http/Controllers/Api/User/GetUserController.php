@@ -13,9 +13,7 @@ final class GetUserController extends AbstractApiController
 {
     public function get(int $id, UserRepositoryInterface $repository): JsonResponse
     {
-        $user = $repository->find($id);
-
-        if (!$user) {
+        if (!$user = $repository->find($id)) {
             return $this->responseError(code: Response::HTTP_NOT_FOUND);
         }
 
